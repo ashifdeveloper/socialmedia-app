@@ -3,16 +3,15 @@ package com.zosh.models;
 import java.util.ArrayList;
 import java.util.List;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name="users")
 public class User {
 	
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
 	
 	private String firstName;
@@ -28,7 +27,8 @@ public class User {
 	private List<Integer> followers = new ArrayList<>();
 	
 	private List<Integer> followings = new ArrayList<>();
-
+    @ManyToMany
+	@JsonIgnore
 	private List<Post> savedPost = new ArrayList<>();
 	
 	
