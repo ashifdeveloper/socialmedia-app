@@ -1,6 +1,5 @@
 package com.zosh.config;
 
-import jakarta.servlet.Filter;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -25,7 +24,7 @@ public class jwtValidator extends OncePerRequestFilter {
             try {
                 String email = JwtProvider.getEmailFromJwtToken(jwt);
                 List<GrantedAuthority> authorities = new ArrayList<>();
-                Authentication authentication = new UsernamePasswordAuthenticationToken(email,null,authorities);
+                Authentication authentication = new UsernamePasswordAuthenticationToken(email,authorities);
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             } catch (Exception e) {
                     throw new BadCredentialsException("Invalid token ....");
