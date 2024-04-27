@@ -18,9 +18,22 @@ public class Post {
     private User user;
     private LocalDateTime createdAt;
     @OneToMany
+    private List<Comment> comments = new ArrayList<>();
+    @OneToMany
     private List<User> liked = new ArrayList<>();
     public Post(){
 
+    }
+
+    public Post(Integer id, String caption, String image, String video, User user, LocalDateTime createdAt, List<Comment> comments, List<User> liked) {
+        this.id = id;
+        this.caption = caption;
+        this.image = image;
+        this.video = video;
+        this.user = user;
+        this.createdAt = createdAt;
+        this.comments = comments;
+        this.liked = liked;
     }
 
     public List<User> getLiked() {
@@ -77,5 +90,13 @@ public class Post {
 
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
     }
 }
