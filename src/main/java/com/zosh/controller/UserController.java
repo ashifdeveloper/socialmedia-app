@@ -5,14 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.zosh.models.User;
 import com.zosh.repository.UserRepository;
@@ -49,10 +42,10 @@ public class UserController {
 		
 	}
 	
-	@PutMapping("/api/users/{userId}")
-	public User updateUser(@RequestBody User user, @PathVariable Integer userId) throws Exception {
-		
-		User updatedUser =userService.updateUser(user, userId);
+	@PutMapping("/users/{userId}")
+	public User updateUser(@RequestHeader("Authorization") String jwt,@RequestBody User user) throws Exception {
+		User reqUser = userService.findUserByJwt(jwt);
+		User updatedUser =userService.updateUser(user, reqUser.getId());
 		
 		return updatedUser;
 		 
@@ -72,7 +65,13 @@ public class UserController {
 		
 		return users;
 	}
-	
-	
+	@GetMapping("/users/profile")
+	public User getUserFromToken(@RequestHeader("Authorization") String jwt){
+//		String email =
+//		System.out.println("jwt ---- " +jwt );
+		User user = userService.findUserByJwt(jwt);
+		user.setPassword(null);
+		return user;
+	}
 
 }

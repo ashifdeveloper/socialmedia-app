@@ -3,6 +3,7 @@ package com.zosh.service;
 import java.util.List;
 import java.util.Optional;
 
+import com.zosh.config.JwtProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -92,6 +93,13 @@ public class UserServiceImplementation implements UserService {
 	public List<User> searchUser(String query) {
 		
 		return userRepository.searchUser(query);
+	}
+
+	@Override
+	public User findUserByJwt(String jwt) {
+		String email = JwtProvider.getEmailFromJwtToken(jwt);
+		User user = userRepository.findByEmail(email);
+		return user;
 	}
 
 }
