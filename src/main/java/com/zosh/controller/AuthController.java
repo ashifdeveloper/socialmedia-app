@@ -1,5 +1,6 @@
 package com.zosh.controller;
 
+import com.zosh.Exception.UserException;
 import com.zosh.config.JwtProvider;
 import com.zosh.config.request.LoginRequest;
 import com.zosh.models.User;
@@ -31,11 +32,11 @@ public class AuthController {
     @Autowired
     private CustomUserDetailsService customUserDetails;
     @PostMapping("/signup")
-    public AuthResponse createUser(@RequestBody User user) throws Exception {
+    public AuthResponse createUser(@RequestBody User user) throws UserException {
         User isExist = userRepository.findByEmail(user.getEmail());
 
         if(isExist != null){
-            throw new Exception("this email already used with another account");
+            throw new UserException("this email already used with another account");
         }
         User newUser=new User();
         newUser.setEmail(user.getEmail());
